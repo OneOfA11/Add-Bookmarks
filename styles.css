@@ -1,0 +1,82 @@
+:root {
+    --background-color: white;
+    --text-color: black;
+
+    --primary: red;
+    --secondary: blue;
+
+    --light-gray: #ccc;
+    --creamy: #f4f4f4;
+}
+
+.darkmode {
+    --background-color: black;
+    --text-color: white;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    transition: background-color 0.3s, color 0.3s;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 1rem;
+}
+
+#bookmarksList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+#bookmarksList .title {
+    margin-bottom: 1rem;
+    color: var(--primary);
+    background: var(--creamy);
+    padding: 0.3rem 0;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#bookmarksList .card {
+    border: 1px solid var(--light-gray);
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+
+.card button {
+    background: unset;
+    border: none;
+    cursor: pointer;
+}
+
+#themeSwitch {
+    width: 100px;
+    height: 30px;
+    border: none;
+    background-color: var(--creamy);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+#themeSwitch span:last-child {
+    display: none;
+}
+
+.darkmode #themeSwitch span:first-child {
+    display: none;
+}
+
+.darkmode #themeSwitch span:last-child {
+    display: block;
+}
