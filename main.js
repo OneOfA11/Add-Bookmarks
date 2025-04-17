@@ -121,6 +121,7 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
                 card.replaceChild(tagsInput, tagsList);
                 card.removeChild(deleteBtn)
                 editBtn.textContent = '✔️'
+                card.classList.add('edit');
                 isEditing = true;
             } else {
                 const inputs = card.querySelectorAll('input[type=text]');                        
@@ -159,9 +160,9 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
 
         card.appendChild(title);
         card.appendChild(url);
+        card.appendChild(tagsList)
         card.appendChild(editBtn)
         card.appendChild(deleteBtn)
-        card.appendChild(tagsList)
 
         list.appendChild(card)
 
