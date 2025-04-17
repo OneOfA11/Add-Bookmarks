@@ -26,6 +26,7 @@ function getBookmarks() {
 function saveBookmark(bookmarks) {
     localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
 }
+
 function addBookmark() {
 
     const titleInput = document.getElementById('websiteTitle');
@@ -38,17 +39,23 @@ function addBookmark() {
     const tags = tagsInput.value.split(',').map(tag=> tag.trim()).filter(tag=>tag !== '');            
 
     const title = titleInput.value.trim();
-    const url = urlInput.value.trim();            
+    const url = urlInput.value.trim();        
 
-    if(title === '' || url === '') {
+    if(title === '' || url === '' || tags === '') {
         return;
     }
-    // const isValidURL = /^(https?:\/\/)([A-Za-z0-9.]+?)([A-Za-z]+)$/.test(url);
-    // console.log(isValidURL);
     
-    let finalURL = url;
-    if(!/^https?:\/\//i.test(url)) {
-        finalURL = 'https://' + url;
+    function isValidURL(url) {
+        return /^https?:\/\/([a-z0-9-]+\.)+[a-z]{2,}$/i.test(url);
+    }
+    let finalURL = url.trim();
+    if(!/^https?:\/\//i.test(isValidURL)) {
+        finalURL = 'https://' + finalURL;
+    }
+
+    if (!isValidURL(finalURL)) {
+        alert('Invalid URL!');
+        return;
     }
 
     const newBookmark = { id: getNextId(), title, url: finalURL, tags}
@@ -132,7 +139,7 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
 
                 const newTitle = titleInput.value.trim();
                 const newUrl = urlInput.value.trim();
-                const newTags = tagsInput.value.trim().split(',').map(tag=>tag.trim());
+                const newTags = tagsInput.value.toLowerCase().trim().split(',').map(tag=>tag.trim());
 
                 if(newTitle === '' || newUrl === '') return;
 
