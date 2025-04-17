@@ -118,3 +118,50 @@ button#addBookmark:hover {
 .darkmode #themeSwitch span:last-child {
     display: block;
 }
+
+/* Toaster */
+#toastContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+
+}
+
+.toast {
+    padding: 1rem 10rem;
+    border-radius: 0.3rem;
+    opacity: 1;
+    transition: opacity 0.3s;
+    font-weight: bold;
+    animation: fadeIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+}
+
+.toast.error {
+    background-color: #ff5656;
+}
+
+.toast.success {
+    background-color: #25b608;
+}
+
+@keyframes fadeIn {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}

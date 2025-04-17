@@ -54,7 +54,7 @@ function addBookmark() {
     }
 
     if (!isValidURL(finalURL)) {
-        alert('Invalid URL!');
+        showToast('Invalide URL! Please check it again!', 'error')
         return;
     }
 
@@ -69,6 +69,7 @@ function addBookmark() {
     urlInput.value = ''
     tagsInput.value = ''
 
+    showToast('Bookmark successfully added!', 'success');
     renderBookmarks();
     renderTags();
 }
@@ -160,9 +161,12 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
 
             if(realIndex !== -1) {
                 allBookmarks.splice(realIndex, 1);
+                showToast('Bookmark removed!', 'error')
                 updateAndRender(allBookmarks);
                 applyFilters();
             }
+
+            
         }
 
         card.appendChild(title);
@@ -251,6 +255,21 @@ function getNextId() {
     const numericIds = bookmarks.map(bookmark => bookmark.id).filter(id=> typeof id === 'number' && !isNaN(id) )
     const maxId = numericIds.length > 0 ? Math.max(...numericIds) : 0;
     return maxId + 1;
+}
+
+function showToast(message, type = 'success'){
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    toast.innerHTML = type === 'success' ? '✅ ' + message : '❌ ' + message;
+
+    const toastContaineiner = document.getElementById('toastContainer');
+    toastContaineiner.appendChild(toast)
+
+
+    setTimeout(()=>{
+        toast.remove();
+    }, 3000)
 }
 
 document.getElementById('filterByTag').addEventListener('change', applyFilters);
