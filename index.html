@@ -6,21 +6,22 @@
     <title>Bookmarks</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="">
-    <h1>Add your bookmark site</h1>
-    <div>
+<body>
+    <h1>Add Bookmark</h1>
+    <div id="addBookmark">
         <input type="text" name="" id="websiteTitle" placeholder="Type your bookmark title...">
         <input type="text" name="" id="websiteURL" placeholder="The bookmark URL">
         <input type="text" name="" id="websiteTags" placeholder="Bookmark tags, comma separated">
         <button onclick="addBookmark()" id="addBookmark">Add Bookmark</button>
     </div>
 
-    <div>
+    <div class="fields">
+        <label for="searchInput">Search:</label>
         <input type="text" name="" id="searchInput" placeholder="Search bookmar by title or url">
     </div>
 
-    <div>
-        <label for="">Sort By</label>
+    <div class="fields">
+        <label for="sortBy">Sort By:</label>
         <select name="" id="sortBy">
             <option value="recent">Recently added</option>
             <option value="az">Title A-Z</option>
@@ -28,8 +29,8 @@
         </select>
     </div>
 
-    <div>
-        <label for="">Filter by tag:</label>
+    <div class="fields">
+        <label for="filterByTag">Filter by TAG:</label>
         <select name="" id="filterByTag">
         </select>
     </div>

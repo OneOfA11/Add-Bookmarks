@@ -144,6 +144,9 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
 
                 if(newTitle === '' || newUrl === '') return;
 
+                showToast('Successfully edited the bookmark!', 'success')
+
+
                 if (realIndex !== -1) {
                     let finalURL = newUrl;
 
@@ -161,7 +164,7 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
 
             if(realIndex !== -1) {
                 allBookmarks.splice(realIndex, 1);
-                showToast('Bookmark removed!', 'error')
+                showToast('Bookmark removed!', 'error');
                 updateAndRender(allBookmarks);
                 applyFilters();
             }
