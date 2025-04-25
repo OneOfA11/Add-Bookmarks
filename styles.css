@@ -121,6 +121,7 @@ button#addBookmark:hover {
     border: 1px solid var(--light-gray);
     border-radius: 8px;
     padding: 1rem 2rem;
+    position: relative;
 }
 
 .card button {
@@ -217,4 +218,10 @@ button#addBookmark:hover {
 .added {
     color: var(--light-gray);
     font-size: 0.8rem;
+}
+
+.pin {
+    position: absolute;
+    right: 0;
+    top: 0;
 }

@@ -36,7 +36,7 @@ function addBookmark() {
     const bookmarks = getBookmarks();
     const dateAdded = Date.now();
 
-    console.log(bookmarks);
+    console.log(bookmarks); // For testing
     
 
     const tags = tagsInput.value.split(',').map(tag=> tag.trim()).filter(tag=>tag !== '');            
@@ -61,7 +61,7 @@ function addBookmark() {
         return;
     }
 
-    const newBookmark = { id: getNextId(), title, url: finalURL, tags, dateAdded}
+    const newBookmark = { id: getNextId(), title, url: finalURL, tags, dateAdded, isPinned: false}
     
     
     bookmarks.push(newBookmark);
@@ -84,12 +84,16 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
     getAllTags();            
 
     list.innerHTML = ''
-
+    bookmarksList.sort((a,b) => b.isPinned - b.isPinned);
     bookmarksList.forEach((bookmark, index) => {
         const timeAgo = formatTimeAgo(bookmark.dateAdded)
 
         const card = document.createElement('div');
         card.className = 'card';
+
+        const pinBtn = document.createElement('div');
+        pinBtn.className = 'pin';
+        pinBtn.textContent = bookmark.isPinned ? '📌 Unpin' : '📌 Pin';
         
         const title = document.createElement('p');
         title.className = 'title'
@@ -138,7 +142,9 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
                 card.replaceChild(titleInput, title);
                 card.replaceChild(urlInput, url);
                 card.replaceChild(tagsInput, tagsList);
-                card.removeChild(deleteBtn)
+                card.removeChild(deleteBtn);
+                card.removeChild(dateAdded);
+                card.removeChild(pinBtn);
                 editBtn.textContent = '✔️'
                 card.classList.add('edit');
                 isEditing = true;
@@ -164,7 +170,12 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
                     if (!/^https?:\/\//i.test(newUrl)) {
                         finalURL = 'https://'+newUrl
                     }
-                    allBookmarks[realIndex] = { title: newTitle, url: finalURL, tags: newTags };
+                    allBookmarks[realIndex] = { 
+                        ...allBookmarks[realIndex],
+                        title: newTitle, 
+                        url: finalURL, 
+                        tags: newTags, 
+                    };
                     updateAndRender(allBookmarks)
                     applyFilters();
                 }
@@ -183,12 +194,21 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
             
         }
 
+        pinBtn.onclick = () => {
+            if(realIndex !== -1) {
+                allBookmarks[realIndex].isPinned = !bookmark.isPinned;
+                updateAndRender(allBookmarks)
+                applyFilters();
+            }
+        }
+
         card.appendChild(title);
         card.appendChild(url);
         card.appendChild(tagsList);
         card.appendChild(editBtn);
         card.appendChild(deleteBtn);
         card.appendChild(dateAdded);
+        card.appendChild(pinBtn);
 
         list.appendChild(card)
 
