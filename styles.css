@@ -213,3 +213,8 @@ button#addBookmark:hover {
         opacity: 0;
     }
 }
+
+.added {
+    color: var(--light-gray);
+    font-size: 0.8rem;
+}

@@ -34,6 +34,8 @@ function addBookmark() {
     const urlInput = document.getElementById('websiteURL');
     const tagsInput = document.getElementById('websiteTags');
     const bookmarks = getBookmarks();
+    const dateAdded = Date.now();
+
     console.log(bookmarks);
     
 
@@ -59,7 +61,7 @@ function addBookmark() {
         return;
     }
 
-    const newBookmark = { id: getNextId(), title, url: finalURL, tags}
+    const newBookmark = { id: getNextId(), title, url: finalURL, tags, dateAdded}
     
     
     bookmarks.push(newBookmark);
@@ -84,6 +86,8 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
     list.innerHTML = ''
 
     bookmarksList.forEach((bookmark, index) => {
+        const timeAgo = formatTimeAgo(bookmark.dateAdded)
+
         const card = document.createElement('div');
         card.className = 'card';
         
@@ -105,9 +109,15 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = '🗑️'
 
+
+        const dateAdded = document.createElement('div');
+        dateAdded.className = 'added';
+        dateAdded.textContent = `Added: ${timeAgo}`;
+
+
         let isEditing = false;
 
-        const allBookmarks = getBookmarks(); // Because wont work in filters
+        const allBookmarks = getBookmarks();
         const realIndex = allBookmarks.findIndex(b => b.id === bookmark.id);
         
 
@@ -175,14 +185,29 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
 
         card.appendChild(title);
         card.appendChild(url);
-        card.appendChild(tagsList)
-        card.appendChild(editBtn)
-        card.appendChild(deleteBtn)
+        card.appendChild(tagsList);
+        card.appendChild(editBtn);
+        card.appendChild(deleteBtn);
+        card.appendChild(dateAdded);
 
         list.appendChild(card)
 
     })
 
+}
+function formatTimeAgo(timestamp) {
+    const diffMs = Date.now() - timestamp;
+    const seconds = Math.floor(diffMs / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+
+    if(seconds < 60) {
+        return `${seconds} sec${seconds !== 1 ? 's':''} ago`;
+    } else if(minutes < 60) {
+        return `${minutes} min${minutes !== 1 ? 's':''} ago`;
+    } else  {
+        return `${hours} hr${hours !== 1 ? 's' : ''} ago`;
+    }
 }
 
 function updateAndRender(bookmarks) {
