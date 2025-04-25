@@ -20,6 +20,7 @@ themeSwitch.addEventListener('click', () => {
 
 
 
+
 function getBookmarks() {
     return JSON.parse(localStorage.getItem('bookmarks') || '[]')
 }
@@ -49,7 +50,7 @@ function addBookmark() {
         return /^https?:\/\/([a-z0-9-]+\.)+[a-z]{2,}$/i.test(url);
     }
     let finalURL = url.trim();
-    if(!/^https?:\/\//i.test(isValidURL)) {
+    if(!/^https?:\/\//i.test(finalURL)) {
         finalURL = 'https://' + finalURL;
     }
 
@@ -219,6 +220,17 @@ function renderTags() {
     })
 }
 
+function debounce(callback, delay = 300) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            callback(...args)
+        }, delay);
+    }
+}
+
+const debouncedFilter = debounce(applyFilters, 300)
 
 function applyFilters() {
     const selectedTag = document.getElementById('filterByTag').value;
@@ -227,20 +239,20 @@ function applyFilters() {
     
     let filtered = getBookmarks();
     
-    // By Tag
+    
     if(selectedTag) {
         filtered = filtered.filter(bookmark =>
             Array.isArray(bookmark.tags) && bookmark.tags.includes(selectedTag)
         );
     }
 
-    // By Search
+    
     if(searchResult) {
         filtered = filtered.filter(bookmark => 
             bookmark.title.toLowerCase().includes(searchResult) || bookmark.url.toLowerCase().includes(searchResult)
         )
     }
-    // Sort
+    
     if(sortedBy === 'az') {
         filtered.sort((a,b) => a.title.localeCompare(b.title))
     } else if (sortedBy === 'za') {
@@ -275,9 +287,27 @@ function showToast(message, type = 'success'){
     }, 3000)
 }
 
+function checkIfThereIsDate() {
+    const bookmarks = getBookmarks();
+
+    try {
+        if(bookmarks && bookmarks.length > 0) {
+            console.log('data exists');
+            return true;
+        } else {
+            console.log('no data exists');
+            return false;
+        }
+    } catch (error) {
+        console.log('Error parsing data or no data');
+        return false;
+    }
+} 
+
 document.getElementById('filterByTag').addEventListener('change', applyFilters);
-document.getElementById('searchInput').addEventListener('input', applyFilters);
+document.getElementById('searchInput').addEventListener('input', debouncedFilter);
 document.getElementById('sortBy').addEventListener('change', applyFilters);
 
+checkIfThereIsDate()
 renderTags()
 renderBookmarks();
