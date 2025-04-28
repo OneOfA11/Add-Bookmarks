@@ -84,7 +84,7 @@ function renderBookmarks(bookmarksList = getBookmarks()) {
     getAllTags();            
 
     list.innerHTML = ''
-    bookmarksList.sort((a,b) => b.isPinned - b.isPinned);
+    bookmarksList.sort((a,b) => b.isPinned - a.isPinned);
     bookmarksList.forEach((bookmark, index) => {
         const timeAgo = formatTimeAgo(bookmark.dateAdded)
 
