@@ -14,6 +14,8 @@
 
     --light-gray: #ccc;
     --creamy: #f4f4f4;
+    --trans-dark: rgb(0, 0, 0, 0.8);
+
 }
 
 html {
@@ -224,4 +226,39 @@ button#addBookmark:hover {
     position: absolute;
     right: 0;
     top: 0;
+}
+
+#deleteAll {
+    background-color: var(--error);
+    color: var(--creamy);
+    text-transform: uppercase;
+    border: 0;
+    padding: 0.7rem;
+    color: var(--light);
+    transition: 0.5s;
+}
+
+
+#modal {
+    display: none;
+    text-align: center;
+    background-color: var(--trans-dark);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+}
+
+#modal>div {
+    opacity: 0;
+    background-color: var(--creamy);
+    padding: 2rem;
+    text-align: center;
+    width: 300px;
+    border: 2px solid black;
+    transition: opacity 0.3s;
+    animation: fadeIn 0.3s ease;
+
 }

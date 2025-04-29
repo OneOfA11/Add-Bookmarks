@@ -1,6 +1,40 @@
 let darkmode = localStorage.getItem('darkmode');
 
 const themeSwitch = document.getElementById('themeSwitch');
+const deleteBtn = document.getElementById('deleteAll');
+const modal = document.getElementById('modal');
+const confirmBtn = document.getElementById('confirmBtn');
+const declineBtn = document.getElementById('declineBtn');
+
+function openModal() {
+    modal.style.display = 'flex';
+    modal.firstElementChild.style.opacity = '1';   
+}
+function closeModal() {
+    modal.style.display = 'none';
+    modal.firstElementChild.style.opacity = '0';   
+}
+
+function showModal(message, onConfirm) {
+    document.getElementById('modalMessage').textContent = message;
+    openModal();
+
+    confirmBtn.onclick = () => {
+        onConfirm();
+        closeModal();
+    }
+
+    declineBtn.onclick = closeModal;
+}
+deleteBtn.addEventListener('click', () => {
+    showModal('Are you sure?', () => {
+        localStorage.clear();
+        renderBookmarks();
+        renderTags();
+        showToast('All bookmarks have been removed', 'error');
+    })  
+})
+
 
 function enableDarkmode() {
     document.body.classList.add('darkmode');
@@ -17,6 +51,8 @@ themeSwitch.addEventListener('click', () => {
     darkmode = localStorage.getItem('darkmode')
     darkmode !== 'active' ? enableDarkmode() : disableDarkmode();            
 })
+
+
 
 
 
